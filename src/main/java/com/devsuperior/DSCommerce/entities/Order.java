@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.security.Timestamp;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -79,5 +80,12 @@ public class Order {
         this.payment = payment;
     }
 
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    List<Product> getProducts() {
+        return items.stream().map(x -> x.getProduct()).toList();
+    }
 }
 
