@@ -6,6 +6,7 @@ import java.security.Timestamp;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
+    public Order(Long id, Instant moment, OrderStatus status, User client, Payment  payment) {
         Id = id;
         this.moment = moment;
         this.status = status;
@@ -86,6 +87,19 @@ public class Order {
 
     List<Product> getProducts() {
         return items.stream().map(x -> x.getProduct()).toList();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+        return Objects.equals(Id, order.Id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(Id);
     }
 }
 

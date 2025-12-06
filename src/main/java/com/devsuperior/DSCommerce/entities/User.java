@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
@@ -15,6 +16,8 @@ public class User {
     private String name;
     @Column(unique = true)
     private String email;
+    private String phone;
+    @Column(unique = true)
     private LocalDate birthDate;
     private String password;
     @OneToMany(mappedBy = "client")
@@ -24,10 +27,11 @@ public class User {
 
     }
 
-    public User(Long id, String name, String email, LocalDate birthDate, String password) {
+    public User(Long id, String name, String email,String phone, LocalDate birthDate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.phone = phone;
         this.birthDate = birthDate;
         this.password = password;
     }
@@ -56,6 +60,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -76,4 +88,16 @@ public class User {
         return orders;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
