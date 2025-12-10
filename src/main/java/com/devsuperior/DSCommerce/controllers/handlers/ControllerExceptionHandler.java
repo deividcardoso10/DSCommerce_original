@@ -1,6 +1,7 @@
 package com.devsuperior.DSCommerce.controllers.handlers;
 
 import com.devsuperior.DSCommerce.dto.CustomError;
+import com.devsuperior.DSCommerce.service.exceptions.DataBaseException;
 import com.devsuperior.DSCommerce.service.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -19,4 +20,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
 
     }
+
+        @ExceptionHandler(DataBaseException.class)
+        public ResponseEntity<CustomError> dataBase(DataBaseException e, HttpServletRequest request) {
+            HttpStatus status = HttpStatus.BAD_REQUEST;
+            CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+            return ResponseEntity.status(status).body(err);
+
+        }
+
 }
