@@ -2,6 +2,7 @@ package com.devsuperior.DSCommerce.controllers;
 
 import com.devsuperior.DSCommerce.dto.ProductDTO;
 import com.devsuperior.DSCommerce.service.ProductService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class ProductController {
         return ResponseEntity.ok().body(dto);
     }
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return  ResponseEntity.created(uri).body(dto);
@@ -44,7 +45,7 @@ public class ProductController {
     }
 
     @PutMapping(value ="/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id, @RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id,@Valid @RequestBody ProductDTO dto){
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
